@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'employees',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +120,6 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# Кастомная модель пользователя
+AUTH_USER_MODEL = "accounts.User"
