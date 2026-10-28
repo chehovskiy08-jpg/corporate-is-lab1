@@ -14,7 +14,22 @@
             <input class="form-control me-2" type="search" name="q" placeholder="Поиск товаров" value="{{ request.GET.q }}">
         </form>
         <ul class="navbar-nav">
+            <!-- Ссылка на корзину со счетчиком -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'cart:detail' %}">
+                    Корзина{% if cart_count %} <span class="badge bg-success">{{ cart_count }}</span>{% endif %}
+                </a>
+            </li>
+
             {% if user.is_authenticated %}
+                <!-- Ссылка на личный кабинет (Мои заказы) -->
+                <li class="nav-item"><a class="nav-link" href="{% url 'orders:list' %}">Мои заказы</a></li>
+
+                <!-- Ссылка на панель менеджера (появится только если есть права) -->
+                {% if perms.orders.change_order %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'admin:orders_order_changelist' %}">Панель менеджера</a></li>
+                {% endif %}
+
                 <li class="nav-item"><span class="nav-link">{{ user.username }}</span></li>
                 <li class="nav-item">
                     <form action="{% url 'logout' %}" method="post">{% csrf_token %}

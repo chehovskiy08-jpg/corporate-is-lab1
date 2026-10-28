@@ -11,3 +11,10 @@ select = ["E", "F", "I", "B", "DJ"]
 "config/settings/*.py" = ["F405"]
 # в файле с тестовыми данными длинные строки — это нормально
 "catalog/management/commands/seed_catalog.py" = ["E501"]
+[tool.coverage.run]
+source = ["."]
+omit = ["*/migrations/*", "*/tests/*", "config/*", "manage.py"]
+
+[tool.coverage.report]
+skip_covered = true
+show_missing = true
