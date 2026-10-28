@@ -6,3 +6,6 @@ db.sqlite3
 .env
 media/
 staticfiles/
+.env.prod
+nginx/certs/
+backups/
