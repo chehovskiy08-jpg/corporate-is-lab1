@@ -36,7 +36,7 @@ class OrderApiTests(APITestCase):
             "/api/orders/",
             {
                 "full_name": "Покупатель",
-                "phone": "+7913",
+                "phone": "8 (913) 000-00-00",
                 "email": "b@example.com",
                 "delivery_method": "pickup",
             },
@@ -60,7 +60,7 @@ class OrderApiTests(APITestCase):
             "/api/orders/",
             {
                 "full_name": "Покупатель",
-                "phone": "+7913",
+                "phone": "8 (913) 000-00-00",
                 "email": "b@example.com",
                 "delivery_method": "courier",
             },
@@ -71,7 +71,7 @@ class OrderApiTests(APITestCase):
             "/api/orders/",
             {
                 "full_name": "Покупатель",
-                "phone": "+7913",
+                "phone": "8 (913) 000-00-00",
                 "email": "b@example.com",
                 "delivery_method": "courier",
                 "address": "ул. Каменская, 56",
@@ -79,6 +79,7 @@ class OrderApiTests(APITestCase):
         )
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data["total"], "2500.00")
+        self.assertEqual(response.data["phone"], "+79130000000")
 
     def test_customer_sees_only_own_orders(self):
         own = self.buy(self.buyer)
