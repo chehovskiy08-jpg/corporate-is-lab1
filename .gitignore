@@ -9,3 +9,5 @@ staticfiles/
 .env.prod
 nginx/certs/
 backups/
+frontend/node_modules/
+frontend/dist/

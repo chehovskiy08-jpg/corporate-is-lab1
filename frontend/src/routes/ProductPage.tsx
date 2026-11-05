@@ -1,0 +1,31 @@
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { Link, useParams } from 'react-router'
+import { productQuery } from '../api/queries'
+import AddToCartButton from '../components/AddToCartButton'
+import Reviews from '../components/Reviews'
+import { formatPrice } from '../lib/format'
+
+export default function ProductPage() {
+  const { slug } = useParams() as { slug: string }
+  const { data: product } = useSuspenseQuery(productQuery(slug))
+
+  return (
+    <article className="details">
+      <Link to={`/?category=${product.category.slug}`}>← {product.category.name}</Link>
+      <h1>{product.name}</h1>
+      <img className="product-image" src={product.image ?? '/no-image.svg'} alt={product.name} />
+      <p className="muted">Артикул {product.sku}</p>
+      <p className="price">
+        {formatPrice(product.price)}
+        {product.old_price && <s className="old-price">{formatPrice(product.old_price)}</s>}
+      </p>
+      <p className={product.in_stock ? 'muted' : 'error'}>
+        {product.in_stock ? `В наличии: ${product.stock} шт.` : 'Нет в наличии'}
+      </p>
+      <AddToCartButton product={product} />
+      <p>{product.description}</p>
+      <h2>Отзывы ({product.reviews_count})</h2>
+      <Reviews slug={slug} />
+    </article>
+  )
+}

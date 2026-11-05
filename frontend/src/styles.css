@@ -1,0 +1,332 @@
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1f2328;
+  --muted: #656d76;
+  --border: #d0d7de;
+  --accent: #1f6feb;
+  --danger: #cf222e;
+  --success: #1a7f37;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  background: var(--accent);
+}
+
+.header a {
+  color: white;
+  text-decoration: none;
+}
+
+.brand {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.progress {
+  color: white;
+  opacity: 0.8;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.categories,
+.categories ul {
+  margin: 0;
+  padding-left: 16px;
+  list-style: none;
+  line-height: 1.8;
+}
+
+.categories {
+  padding-left: 0;
+}
+
+.categories a.active {
+  font-weight: bold;
+  color: var(--text);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.filters label.inline {
+  flex-direction: row;
+  align-items: center;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.grid.stale {
+  opacity: 0.6;
+}
+
+.card,
+.details {
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.card h2 {
+  margin: 8px 0;
+  font-size: 17px;
+}
+
+.card-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  background: #e9ecef;
+  border-radius: 6px;
+}
+
+.product-image {
+  display: block;
+  max-width: 360px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.skeleton {
+  height: 300px;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.old-price {
+  margin-left: 8px;
+  font-size: 15px;
+  font-weight: normal;
+  color: var(--muted);
+}
+
+.badge {
+  margin-left: 8px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: white;
+  background: var(--danger);
+  border-radius: 4px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.error {
+  color: var(--danger);
+}
+
+.load-error {
+  padding: 16px;
+  background: #ffebe9;
+  border: 1px solid var(--danger);
+  border-radius: 8px;
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.pagination a {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  color: white;
+  background: var(--accent);
+}
+
+.reviews {
+  padding: 0;
+  list-style: none;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+  color: white;
+}
+
+.nav a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.narrow {
+  max-width: 620px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.form label.inline {
+  flex-direction: row;
+  align-items: center;
+}
+
+.form fieldset {
+  margin: 0 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.form .error {
+  margin: -4px 0 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table td {
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.table.stale {
+  opacity: 0.6;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty button {
+  padding: 2px 10px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.actions button {
+  padding: 4px 10px;
+}
+
+button.secondary {
+  color: var(--text);
+  background: #eaeef2;
+}
+
+.button {
+  display: inline-block;
+  padding: 8px 16px;
+  color: white;
+  background: var(--accent);
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.success {
+  padding: 12px;
+  background: #dafbe1;
+  border: 1px solid var(--success);
+  border-radius: 8px;
+}
+
+/* Подвал с версией (лабораторная №10) */
+.footer {
+  padding: 16px 24px;
+  font-size: 13px;
+}

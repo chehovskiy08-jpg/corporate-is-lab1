@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.postgres",
     "rest_framework",
     "django_filters",
+    "drf_spectacular",
     "employees",
     "accounts",
     "catalog",
@@ -138,6 +139,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
@@ -184,4 +186,11 @@ LOGGING = {
         "employees": {"handlers": ["console"], "level": LOG_LEVEL, "propagate": False},
         "orders": {"handlers": ["console"], "level": LOG_LEVEL, "propagate": False},
     },
+}
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Магазин: REST API",
+    "VERSION": "1.2.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
+    "ENUM_NAME_OVERRIDES": {"OrderStatusEnum": "orders.models.Order.Status"},
 }
