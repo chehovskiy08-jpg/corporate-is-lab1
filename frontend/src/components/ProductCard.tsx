@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import type { Product } from '../api/client'
 import { productQuery } from '../api/queries'
 import { formatPrice } from '../lib/format'
+import AddToCartButton from './AddToCartButton'
 
 export default function ProductCard({ product }: { product: Product }) {
   const queryClient = useQueryClient()
@@ -20,7 +21,9 @@ export default function ProductCard({ product }: { product: Product }) {
       <p className="price">
         {formatPrice(product.price)}
         {product.old_price && <s className="old-price">{formatPrice(product.old_price)}</s>}
-        {product.discount_percent > 0 && <span className="badge">−{product.discount_percent}%</span>}
+        {product.discount_percent > 0 && (
+          <span className="badge">−{product.discount_percent}%</span>
+        )}
       </p>
       <p className={product.in_stock ? 'muted' : 'error'}>
         {product.in_stock ? `В наличии: ${product.stock} шт.` : 'Нет в наличии'}
@@ -30,6 +33,7 @@ export default function ProductCard({ product }: { product: Product }) {
           ★ {product.rating} ({product.reviews_count})
         </p>
       )}
+      <AddToCartButton product={product} />
     </article>
   )
 }

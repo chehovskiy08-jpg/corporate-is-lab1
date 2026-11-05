@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link, useParams } from 'react-router'
 import { productQuery } from '../api/queries'
+import AddToCartButton from '../components/AddToCartButton'
 import Reviews from '../components/Reviews'
 import { formatPrice } from '../lib/format'
 
@@ -21,6 +22,7 @@ export default function ProductPage() {
       <p className={product.in_stock ? 'muted' : 'error'}>
         {product.in_stock ? `В наличии: ${product.stock} шт.` : 'Нет в наличии'}
       </p>
+      <AddToCartButton product={product} />
       <p>{product.description}</p>
       <h2>Отзывы ({product.reviews_count})</h2>
       <Reviews slug={slug} />
