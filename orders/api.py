@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, permissions, serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -29,6 +30,8 @@ class OrderViewSet(
     filterset_fields = ["status"]
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return Order.objects.none()
         queryset = Order.objects.prefetch_related("items", "history__changed_by").select_related(
             "promo_code"
         )
@@ -36,6 +39,7 @@ class OrderViewSet(
             return queryset
         return queryset.filter(user=self.request.user)
 
+    @extend_schema(request=CheckoutSerializer, responses={201: OrderSerializer})
     def create(self, request):
         checkout = CheckoutSerializer(data=request.data)
         checkout.is_valid(raise_exception=True)
@@ -46,16 +50,18 @@ class OrderViewSet(
             order = place_order(user=request.user, cart=cart, **checkout.validated_data)
         except OrderError as error:
             raise serializers.ValidationError({"detail": str(error)}) from error
-        return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
+        return Response(self.get_serializer(order).data, status=status.HTTP_201_CREATED)
 
+    @extend_schema(request=None)
     @action(detail=True, methods=["post"])
     def cancel(self, request, pk=None):
         try:
             order = cancel_by_customer(self.get_object(), request.user)
         except OrderError as error:
             raise serializers.ValidationError({"detail": str(error)}) from error
-        return Response(OrderSerializer(order).data)
+        return Response(self.get_serializer(order).data)
 
+    @extend_schema(request=StatusChangeSerializer)
     @action(
         detail=True,
         methods=["post"],
@@ -74,7 +80,7 @@ class OrderViewSet(
             )
         except OrderError as error:
             raise serializers.ValidationError({"detail": str(error)}) from error
-        return Response(OrderSerializer(order).data)
+        return Response(self.get_serializer(order).data)
 
 
 router = SimpleRouter()

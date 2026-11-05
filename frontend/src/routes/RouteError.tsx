@@ -11,6 +11,9 @@ export default function RouteError() {
     message = 'Такого товара нет или он снят с продажи.'
   } else if (error instanceof ApiError) {
     message = error.message
+  } else if (isRouteErrorResponse(error) && error.status === 403) {
+    title = 'Нет доступа'
+    message = String(error.data)
   } else if (isRouteErrorResponse(error)) {
     title = `${error.status} ${error.statusText}`
   }

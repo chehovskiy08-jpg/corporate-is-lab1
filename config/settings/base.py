@@ -192,4 +192,5 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.2.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,
+    "ENUM_NAME_OVERRIDES": {"OrderStatusEnum": "orders.models.Order.Status"},
 }
