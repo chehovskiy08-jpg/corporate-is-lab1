@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+  <rect width="300" height="200" fill="#e9ecef"/>
+  <text x="150" y="105" text-anchor="middle" fill="#656d76" font-family="sans-serif" font-size="16">
+    Нет фото
+  </text>
+</svg>
