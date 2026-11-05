@@ -4,7 +4,7 @@ from .models import Category, Product, Review
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    parent = serializers.SlugRelatedField(slug_field="slug", read_only=True)
+    parent = serializers.SlugRelatedField(slug_field="slug", read_only=True, allow_null=True)
 
     class Meta:
         model = Category
@@ -35,7 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "reviews_count",
         ]
 
-    def get_rating(self, product):
+    def get_rating(self, product) -> float | None:
         return round(product.rating, 1) if product.rating is not None else None
 
 

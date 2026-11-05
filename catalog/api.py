@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -14,12 +15,12 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     lookup_field = "slug"
     pagination_class = None
-    permission_classes = [permissions.AllowAny]  # <--- ЯВНО РАЗРЕШАЕМ
+    permission_classes = [permissions.AllowAny]
 
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ProductSerializer
-    permission_classes = [permissions.AllowAny]  # <--- ЯВНО РАЗРЕШАЕМ
+    permission_classes = [permissions.AllowAny]
     lookup_field = "slug"
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProductFilter
@@ -32,10 +33,13 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
             .order_by("-created_at")
         )
 
+    @extend_schema(methods=["GET"], responses=ReviewSerializer(many=True))
+    @extend_schema(methods=["POST"], request=ReviewSerializer, responses={201: ReviewSerializer})
     @action(
         detail=True,
         methods=["get", "post"],
         permission_classes=[permissions.IsAuthenticatedOrReadOnly],
+        pagination_class=None,
     )
     def reviews(self, request, slug=None):
         product = self.get_object()
