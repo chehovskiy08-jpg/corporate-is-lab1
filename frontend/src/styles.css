@@ -230,6 +230,7 @@ button:disabled {
   padding: 0;
   list-style: none;
 }
+
 .nav {
   display: flex;
   align-items: center;
@@ -322,4 +323,10 @@ button.secondary {
   background: #dafbe1;
   border: 1px solid var(--success);
   border-radius: 8px;
+}
+
+/* Подвал с версией (лабораторная №10) */
+.footer {
+  padding: 16px 24px;
+  font-size: 13px;
 }
