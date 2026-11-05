@@ -1,20 +1,23 @@
+import type { ComponentType } from 'react'
 import { createBrowserRouter } from 'react-router'
 import { orderQuery } from './api/orders'
 import { categoriesQuery, productQuery, productsQuery } from './api/queries'
-import LoginPage from './auth/LoginPage'
-import RegisterPage from './auth/RegisterPage'
 import { meQuery, requireManager, requireUser } from './auth/session'
 import CartPage from './cart/CartPage'
 import { parseCatalogParams } from './lib/catalogParams'
-import CheckoutPage from './orders/CheckoutPage'
-import OrderPage from './orders/OrderPage'
-import OrdersPage from './orders/OrdersPage'
 import { queryClient } from './queryClient'
 import CatalogPage from './routes/CatalogPage'
 import NotFoundPage from './routes/NotFoundPage'
 import ProductPage from './routes/ProductPage'
 import RootLayout from './routes/RootLayout'
 import RouteError from './routes/RouteError'
+
+// Страницы, которые нужны не каждому посетителю, загружаются
+// отдельными файлами при переходе:
+// формы с Zod и React Hook Form не утяжеляют каталог
+const page = async (module: Promise<{ default: ComponentType }>) => ({
+  Component: (await module).default,
+})
 
 export const router = createBrowserRouter([
   {
@@ -47,11 +50,11 @@ export const router = createBrowserRouter([
         },
       },
       { path: 'cart', Component: CartPage },
-      { path: 'login', Component: LoginPage },
-      { path: 'register', Component: RegisterPage },
+      { path: 'login', lazy: () => page(import('./auth/LoginPage')) },
+      { path: 'register', lazy: () => page(import('./auth/RegisterPage')) },
       {
         path: 'checkout',
-        Component: CheckoutPage,
+        lazy: () => page(import('./orders/CheckoutPage')),
         loader: async ({ request }) => {
           await requireUser(request)
           return null
@@ -59,7 +62,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'orders',
-        Component: OrdersPage,
+        lazy: () => page(import('./orders/OrdersPage')),
         loader: async ({ request }) => {
           await requireUser(request)
           return null
@@ -67,7 +70,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'orders/:orderId',
-        Component: OrderPage,
+        lazy: () => page(import('./orders/OrderPage')),
         ErrorBoundary: RouteError,
         loader: async ({ request, params }) => {
           await requireUser(request)
@@ -85,9 +88,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: 'orders',
-            lazy: async () => ({
-              Component: (await import('./manager/ManagerOrdersPage')).default,
-            }),
+            lazy: () => page(import('./manager/ManagerOrdersPage')),
           },
         ],
       },

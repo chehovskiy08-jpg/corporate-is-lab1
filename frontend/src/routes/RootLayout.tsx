@@ -53,6 +53,9 @@ export default function RootLayout() {
           <Outlet />
         </main>
       </div>
+      <footer className="footer muted">
+        Версия {import.meta.env.VITE_APP_VERSION ?? 'dev'}
+      </footer>
     </>
   )
 }
